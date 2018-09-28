@@ -11,5 +11,6 @@ EXPOSE ${VARNISH_PORT}
 
 COPY default.vcl /etc/varnish
 ADD start /
-RUN chmod +x /start
+ADD backendgen.sh /
+RUN chmod +x /start /backendgen.sh
 CMD ["/bin/sh","/start"]
