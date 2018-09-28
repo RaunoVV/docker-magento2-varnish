@@ -10,7 +10,7 @@ backend default {
 }
 
 acl purge {
-    "magento2";
+    "${BACKEND_HOST}";
 }
 
 sub vcl_recv {
