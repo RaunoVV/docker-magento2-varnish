@@ -13,6 +13,7 @@ DAEMON_OPTS="-a :"${VARNISH_PORT}" \
 
    sed -i s/\${VARNISH_BACKEND_HOST}/${VARNISH_BACKEND_HOST}/ /etc/varnish/default.vcl
    sed -i s/\${VARNISH_BACKEND}/${VARNISH_BACKEND}/ /etc/varnish/default.vcl
+   sed -i s/\${BACKEND_HOST}/${BACKEND_HOST}/ /etc/varnish/default.vcl
 
    mkdir -p /var/lib/varnish/magento2 && chown nobody /var/lib/varnish/magento2
    varnishd -f /etc/varnish/default.vcl
