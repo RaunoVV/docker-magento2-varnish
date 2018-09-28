@@ -1,7 +1,8 @@
 FROM alpine
 RUN apk update && \
 apk upgrade && \
-apk add varnish
+apk add varnish && \
+apk add bind-tools
 
 ENV VARNISH_PORT 80
 ENV VARNISH_BACKEND 80
