@@ -10,10 +10,11 @@ DAEMON_OPTS="-a :"${VARNISH_PORT}" \
    -f /etc/varnish/default.vcl \
    -S /etc/varnish/secret \
    -s malloc,256m"' > /etc/sysconfig/varnish;
-
+   
+   /backendgen.sh magento2 ${BACKEND_HOST} > /etc/varnish/backend
    sed -i s/\${VARNISH_BACKEND_HOST}/${VARNISH_BACKEND_HOST}/ /etc/varnish/default.vcl
    sed -i s/\${VARNISH_BACKEND}/${VARNISH_BACKEND}/ /etc/varnish/default.vcl
-   sed -i s/\${BACKEND_HOST}/${BACKEND_HOST}/ /etc/varnish/default.vcl
+   
 
    mkdir -p /var/lib/varnish/magento2 && chown nobody /var/lib/varnish/magento2
    varnishd -f /etc/varnish/default.vcl
