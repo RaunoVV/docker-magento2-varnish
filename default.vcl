@@ -1,7 +1,8 @@
 vcl 4.0;
 
 import std;
-import directors;
+
+
 # The minimal Varnish version is 4.0
 # For SSL offloading, pass the following header in your proxy server or load balancer: 'X-Forwarded-Proto: https'
 
@@ -9,17 +10,11 @@ import directors;
 #    .host = "${BACKEND_HOST}";
 #    .port = "${VARNISH_BACKEND}";
 #}
-director magento2 dns {
-    .list = {
-        .host_header = "${BACKEND_HOST}";
-        .port = "80";
-        .connect_timeout = 0.4s;
-        "10.128.9.0"/24;
-        "192.168.16.128"/25;
-    }
-    .ttl = 5m;
-    .suffix = "internal.example.net";
-}
+
+import directors;
+
+include "backend.vcl";
+
 
 acl purge {
     "magento2";
@@ -27,6 +22,7 @@ acl purge {
 
 sub vcl_recv {
   # Capture Real IP
+  set req.backend_hint = magento2.backend();
   if (req.restarts == 0) {
       if (req.http.X-Forwarded-For) {
          set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
